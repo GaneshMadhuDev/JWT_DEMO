@@ -30,3 +30,20 @@ For example:
 }
 Then, this JSON is Base64Url encoded to form the first part of the JWT.
 
+
+Payload
+The second part of the token is the payload, which contains the claims. Claims are statements about an entity (typically, the user) and additional metadata. There are three types of claims: reserved, public, and private claims.
+
+Reserved claims: These are a set of predefined claims, which are not mandatory but recommended, thought to provide a set of useful, interoperable claims. Some of them are: iss (issuer), exp (expiration time), sub (subject), aud (audience), among others.
+Notice that the claim names are only three characters long as JWT is meant to be compact.
+
+Public claims: These can be defined at will by those using JWTs. But to avoid collisions they should be defined in the IANA JSON Web Token Registry or be defined as a URI that contains a collision resistant namespace.
+Private claims: These are the custom claims created to share information between parties that agree on using them.
+An example of payload could be:
+
+{
+  'sub': '1234567890',
+  'name': 'John Doe',
+  'admin': true
+}
+The payload is then Base64Url encoded to form the second part of the JWT.
