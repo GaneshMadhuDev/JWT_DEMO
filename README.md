@@ -96,3 +96,83 @@ How we use JSON Web Tokens in Auth0?
 In Auth0, we issue JWTs as a result of the authentication process. When the user logs in using Auth0, a JWT is created, signed, and sent to the user. Auth0 supports signing JWT with both HMAC and RSA algorithms. This token will be then used to authenticate and authorize with APIs which will grant access to their protected routes and resources.
 
 We also use JWTs to perform authentication and authorization in Auth0’s API v2, replacing the traditional usage of regular opaque API keys. Regarding authorization, JSON Web Tokens allow granular security, that is the ability to specify a particular set of permissions in the token, which improves debuggability.
+
+
+
+How to create a JWT
+First, you should know three important parts of a JWT:
+
+Header
+Payload
+Signature
+Header
+The Header answers the question: How will we calculate JWT?
+Now look at an example of header, it’s a JSON object like this:
+
+{
+  "typ": "JWT",
+  "alg": "HS256"
+}
+– typ is ‘type’, indicates that Token type here is JWT.
+– alg stands for ‘algorithm’ which is a hash algorithm for generating Token signature. In the code above, HS256 is HMAC-SHA256 – the algorithm which uses Secret Key.
+
+Payload
+The Payload helps us to answer: What do we want to store in JWT?
+This is a payload sample:
+
+{
+  "userId": "abcd12345ghijk",
+  "username": "bezkoder",
+  "email": "contact@bezkoder.com",
+  // standard fields
+  "iss": "zKoder, author of bezkoder.com",
+  "iat": 1570238918,
+  "exp": 1570238992
+}
+In the JSON object above, we store 3 user fields: userId, username, email. You can save any field you want.
+
+We also have some Standart Fields. They are optional.
+
+iss (Issuer): who issues the JWT
+iat (Issued at): time the JWT was issued at
+exp (Expiration Time): JWT expiration time
+You can see more Standard Fields at:
+https://en.wikipedia.org/wiki/JSON_Web_Token#Standard_fields
+
+Signature
+This part is where we use the Hash Algorithm that I told you above.
+Look at the code for getting the Signature below:
+
+const data = Base64UrlEncode(header) + '.' + Base64UrlEncode(payload);
+const hashedData = Hash(data, secret);
+const signature = Base64UrlEncode(hashedData);
+Let’s explain it.
+– First, we encode Header and Payload, join them with a dot .
+
+data = '[encodedHeader].[encodedPayload]'
+– Next, we make a hash of the data using Hash algorithm (defined at Header) with a secret string.
+– Finally, we encode the hashing result to get Signature.
+
+Combine all things
+After having Header, Payload, Signature, we’re gonna combine them into JWT standard structure: header.payload.signature.
+
+Following code will illustrate how we do it.
+
+const encodedHeader = base64urlEncode(header);
+/* Result */
+"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
+
+const encodedPayload = base64urlEncode(payload);
+/* Result */
+"eyJ1c2VySWQiOiJhYmNkMTIzNDVnaGlqayIsInVzZXJuYW1lIjoiYmV6a29kZXIiLCJlbWFpbCI6ImNvbnRhY3RAYmV6a29kZXIuY29tIn0"
+
+const data = encodedHeader + "." + encodedPayload;
+const hashedData = Hash(data, secret);
+const signature = base64urlEncode(hashedData);
+/* Result */
+"crrCKWNGay10ZYbzNG3e0hfLKbL7ktolT7GqjUMwi3k"
+
+// header.payload.signature
+const JWT = encodedHeader + "." + encodedPayload + "." + signature;
+/* Result */
+"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJhYmNkMTIzNDVnaGlqayIsInVzZXJuYW1lIjoiYmV6a29kZXIiLCJlbWFpbCI6ImNvbnRhY3RAYmV6a29kZXIuY29tIn0.5IN4qmZTS3LEaXCisfJQhrSyhSPXEgM1ux-qXsGKacQ"
