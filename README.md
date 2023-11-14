@@ -199,12 +199,13 @@ In addition, saving the user’s Token on the Server will also benefit the Force
 
 
 Standard fields
-Code	Name	Description
-Standard claim fields	The internet drafts define the following standard fields ("claims") that can be used inside a JWT claim set.
-iss	Issuer	Identifies principal that issued the JWT.
-sub	Subject	Identifies the subject of the JWT.
-aud	Audience	Identifies the recipients that the JWT is intended for. Each principal intended to process the JWT must identify itself with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the aud claim when this claim is present, then the JWT must be rejected.
-exp	Expiration Time	Identifies the expiration time on and after which the JWT must not be accepted for processing. The value must be a NumericDate:[9] either an integer or decimal, representing seconds past 1970-01-01 00:00:00Z.
-nbf	Not Before	Identifies the time on which the JWT will start to be accepted for processing. The value must be a NumericDate.
-iat	Issued at	Identifies the time at which the JWT was issued. The value must be a NumericDate.
-jti	JWT ID	Case-sensitive unique identifier of the token even among different issuers.
+Code	          Name	                  Description
+Standard        claim fields	          The internet drafts define the following standard fields ("claims") that can be used inside a JWT claim set.
+iss	            Issuer	                Identifies principal that issued the JWT.
+sub	            Subject	                Identifies the subject of the JWT.
+aud	            Audience	              Identifies the recipients that the JWT is intended for. Each principal intended to process the JWT must identify itself with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the aud claim when this claim is present, then the JWT must be rejected.
+exp	            Expiration Time	        Identifies the expiration time on and after which the JWT must not be accepted for processing. 
+                                        The value must be a NumericDate: either an integer or decimal, representing seconds past 1970-01-01 00:00:00Z.
+nbf	            Not Before	             Identifies the time on which the JWT will start to be accepted for processing. The value must be a NumericDate.
+iat	            Issued at	Identifies    the time at which the JWT was issued. The value must be a NumericDate.
+jti	            JWT ID	                Case-sensitive unique identifier of the token even among different issuers.
