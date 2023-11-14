@@ -66,3 +66,15 @@ The output is three Base64 strings separated by dots that can be easily passed i
 The following shows a JWT that has the previous header and payload encoded and it is signed with a secret.
 
 
+How JSON Web Tokens work?
+In authentication, when the user successfully logs in using their credentials, a JSON Web Token will be returned. Since tokens are credentials, great care must be taken to prevent security issues. In general, you should not keep tokens longer than required.
+
+You also should not store sensitive session data in browser storage due to lack of security.
+
+Whenever the user wants to access a protected route, it should send the JWT, typically in the Authorization header using the Bearer schema. Therefore the content of the header should look like the following.
+
+Authorization: Bearer <token>
+
+This is a stateless authentication mechanism as the user state is never saved in the server memory. The server’s protected routes will check for a valid JWT in the Authorization header, and if there is, the user will be allowed. As JWTs are self-contained, all the necessary information is there, reducing the need of going back and forward to the database.
+
+This allows to fully rely on data APIs that are stateless and even make requests to downstream services. It doesn’t matter which domains are serving your APIs, as Cross-Origin Resource Sharing (CORS) won’t be an issue as it doesn’t use cookies.
