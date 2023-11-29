@@ -257,3 +257,21 @@ public String protectedUserPage() {
     return "TechGeekNext User";
 }
 The crucial thing to remember is that in order to use hasRole(), the authority name in the claim must begin with ROLE_. You might, for example, use hasRole('ADMIN') if you created a ROLE ADMIN group and added your user to it.
+
+3. What is difference between Spring Security's @PreAuthorize and HttpSecurity?
+
+The first distinction is small, but it is important to note. Before controller mapping occurs, the HttpSecurity function rejects the request in a web request filter. The @PreAuthorize assessment, on the other hand, occurs later, directly before the controller method is executed. This means that HttpSecurity configuration is done before @PreAuthorize.
+Second, HttpSecurity is associated with URL endpoints, whereas @PreAuthorize is associated with controller methods and is located within the code next to the controller definitions.
+The use of SpEL (Spring Expression Language ) is another advantage that @PreAuthorize has over HttpSecurity.
+
+4. How to enable Method-level Security for Spring?
+
+The @PreAuthorize annotation is enabled by the @EnableGlobalMethodSecurity(prePostEnabled = true) annotation.
+
+@Component
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+.......
+.......
+}
