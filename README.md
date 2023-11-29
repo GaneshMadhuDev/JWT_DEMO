@@ -229,3 +229,31 @@ We could alternatively use the @Secured annotation in spring to handle method-le
 We cannot have several conditions with the @Secured annotation, i.e. the roles cannot be coupled with an AND/OR condition.
 Spring expression language is not supported by the @Secured annotation.
 
+1. What is difference of using @PreAuthorize and @Secured in Spring Security?
+@PreAuthorize annotation is used to check for authorization before executing the method.
+
+We could alternatively use the @Secured annotation in spring to handle method-level security, however it has several limitations, such as
+
+We cannot have several conditions with the @Secured annotation, i.e. the roles cannot be coupled with an AND/OR condition.
+Spring expression language is not supported by the @Secured annotation.
+
+2. What is the difference between hasRole() and hasAuthority()?
+
+Spring roles are authorities with the ROLE_prefix. Another thing to understand of it is that roles are meant for broad sets of permissions, whereas authorities are meant for finer-grained management. However, that is only one possible usage. The developer is in charge of the actual implementation. In this tutorial, authorities are used to map to authorization groups.
+
+
+@PreAuthorize("hasAuthority('Admin')")
+@RequestMapping("/fetch-users")
+@ResponseBody
+public String protectedUserPage() {
+    return "TechGeekNext User";
+}
+
+------------------------------------------
+
+@PreAuthorize("hasRole('admin')")
+@RequestMapping("/fetch-users")
+public String protectedUserPage() {
+    return "TechGeekNext User";
+}
+The crucial thing to remember is that in order to use hasRole(), the authority name in the claim must begin with ROLE_. You might, for example, use hasRole('ADMIN') if you created a ROLE ADMIN group and added your user to it.
