@@ -209,3 +209,10 @@ exp	            Expiration Time	        Identifies the expiration time on and af
 nbf	            Not Before	             Identifies the time on which the JWT will start to be accepted for processing. The value must be a NumericDate.
 iat	            Issued at	Identifies    the time at which the JWT was issued. The value must be a NumericDate.
 jti	            JWT ID	                Case-sensitive unique identifier of the token even among different issuers.
+
+
+1. JWT consists of 3 parts - Header.Payload.Signature
+2. The JWT access token is only valid for a limited period of time. Using an expired JWT would cause the operation to fail. This value is normally 1200 seconds or 20 minutes.
+3. JWT is essentially a token format. JWT is a token that can be used as part of the OAuth authorization protocol. Server-side and client-side storage are used in OAuth. If you want to make a proper logout, you'll need to use OAuth2. Authentication with a JWT token does not allow you to logout.
+4. The JWT is signed with public/private key pairs to ensure that the sender is authenticated and that the payload has not been tampered with. The JSON Web Token, on the other hand, is in plain text.
+To encrypt communication, we will require SSL/HTTPS. Attackers can intercept network traffic without SSL/HTTPS and extract the JWT, making your application vulnerable to man in the middle attacks.
