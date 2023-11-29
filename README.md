@@ -216,3 +216,16 @@ jti	            JWT ID	                Case-sensitive unique identifier of the t
 3. JWT is essentially a token format. JWT is a token that can be used as part of the OAuth authorization protocol. Server-side and client-side storage are used in OAuth. If you want to make a proper logout, you'll need to use OAuth2. Authentication with a JWT token does not allow you to logout.
 4. The JWT is signed with public/private key pairs to ensure that the sender is authenticated and that the payload has not been tampered with. The JSON Web Token, on the other hand, is in plain text.
 To encrypt communication, we will require SSL/HTTPS. Attackers can intercept network traffic without SSL/HTTPS and extract the JWT, making your application vulnerable to man in the middle attacks.
+5. JSON Web Tokens (JWT) are called stateless because the authorizing server doesn't need to keep track of anything, the token is all that's required to verify a token bearer's authorization. In stateless authentication, no need to store user information in the session.
+6. The JWT comprises encoded user information as well as a signature that is checked when decoded to confirm that the token has not been tampered with. After the JWT has been confirmed, instead of sending the user their forgotten password, your application can safely allow them to generate a new password.
+7. The AbstractSecurityInterceptor in Spring Security handles the initial authorization of an incoming request.
+There are two concrete implementations of the AbstractSecurityInterceptor:
+FilterSecurityInterceptor
+The Spring Security filter chain's default filter. All authenticated user requests will be authorised by the FilterSecurityInterceptor.
+MethodSecurityInterceptor
+This is required for method level security to be implemented. It enables us to apply security to our programme at the method level.
+8. @PreAuthorize annotation is used to check for authorization before executing the method.
+We could alternatively use the @Secured annotation in spring to handle method-level security, however it has several limitations, such as
+We cannot have several conditions with the @Secured annotation, i.e. the roles cannot be coupled with an AND/OR condition.
+Spring expression language is not supported by the @Secured annotation.
+
